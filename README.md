@@ -1,2 +1,1 @@
-# SpaceInvadersHaskell
-Space Invaders feito em Haskell
+# Classical pong in Haskell

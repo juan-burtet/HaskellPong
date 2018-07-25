@@ -32,10 +32,9 @@ randomInitialState gen = Game
     d' = d * mag
     mag = 200 / sqrt (c^2 + d^2)
 
-
 width, height, offset :: Num a => a
-width = 1440
-height = 400
+width = 1480
+height = 780
 offset = 100
 
 window :: Display
@@ -56,12 +55,12 @@ main = do
 render :: PongGame -> IO Picture
 render game = return $ 
   pictures [ball, walls,
-            mkPaddle rose 700 $ player1 game,
-            mkPaddle orange (-700) $ player2 game]
+            mkPaddle white 700 $ player1 game,
+            mkPaddle white (-700) $ player2 game]
   where
     --  The pong ball.
     ball = uncurry translate (ballLoc game) $ color ballColor $ circleSolid ballRadius
-    ballColor = dark red
+    ballColor = white
 
     --  The bottom and top walls.
     wall :: Float -> Picture
@@ -70,7 +69,7 @@ render game = return $
         color wallColor $
           rectangleSolid 1440 10
 
-    wallColor = greyN 0.5
+    wallColor = white
     walls = pictures [wall 400, wall (-400)]
 
     --  Make a paddle of a given border and vertical offset.
@@ -80,7 +79,7 @@ render game = return $
       , translate x y $ color paddleColor $ rectangleSolid 20 80
       ]
 
-    paddleColor = light (light blue)
+    paddleColor = white
 
 -- | Update the game by moving the ball.
 update :: Float -> PongGame -> IO PongGame
@@ -120,8 +119,8 @@ handleKeys event game = case event of
 wallCollision :: Position -> Radius -> Bool
 wallCollision (_, y) radius = topCollision || bottomCollision
   where
-    topCollision    = y - radius <= -fromIntegral width / 2
-    bottomCollision = y + radius >=  fromIntegral width / 2
+    topCollision    = y - radius <= -fromIntegral height / 2
+    bottomCollision = y + radius >=  fromIntegral height / 2
 
 wallBounce :: PongGame -> PongGame
 wallBounce game = game { ballVel = (vx, vy') }
@@ -139,8 +138,8 @@ wallBounce game = game { ballVel = (vx, vy') }
 
 paddleCollision :: Position -> PongGame -> Bool
 paddleCollision (x, y) game = 
-  (x + ballRadius > 110 && abs (y - player1 game) < 40) || 
-  (x - ballRadius < -110 && abs (y - player2 game) < 40)
+  (x + ballRadius > 700 && abs (y - player1 game) < 40) || 
+  (x - ballRadius < -700 && abs (y - player2 game) < 40)
 
 paddleBounce :: PongGame -> PongGame
 paddleBounce game = game { ballVel = (vx', vy) }
