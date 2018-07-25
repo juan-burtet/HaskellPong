@@ -105,9 +105,9 @@ gameEnded game = farLeft || farRight
 handleKeys :: Event -> PongGame -> IO PongGame
 handleKeys event game = case event of
   EventKey (Char 'q') _ _ _ -> exitSuccess
-  EventKey (Char 'w') _ _ _ -> return $
+  EventKey (Char 'e') _ _ _ -> return $
     game { player2 = player2 game + 10 }
-  EventKey (Char 's') _ _ _ ->  return $
+  EventKey (Char 'd') _ _ _ ->  return $
     game { player2 = player2 game - 10 }
   EventKey (SpecialKey KeyUp) _ _ _ ->  return $
     game { player1 = player1 game + 10 }
